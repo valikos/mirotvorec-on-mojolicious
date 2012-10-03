@@ -1,0 +1,47 @@
+% if (session 'admin_id') {
+    % layout 'admin', title => join ' ', '::', 'Главная';
+% } else {
+    % layout 'admin_login';
+% }
+    <div class="top-bar">
+        <h1>Навигация</h1>
+        <div class="breadcrumbs"></div>
+    </div><br />
+    <div class="content-separator"></div>
+    <div class="table">
+        <img src="<%= url_for->base %>/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="<%= url_for->base %>/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing" cellpadding="0" cellspacing="0">
+            <tr>
+                <th class="first last" colspan="2">&nbsp;</th>
+            <tr>
+            <tr>
+                <td class="first" style="width:128px"><a href="/admin/articles"><img alt="" src="/images/admin/article-add-icon.png" /></a>
+                </td>
+                <td class="last">
+                    Создание и редактирование новостей
+                </td>
+            </tr>
+            <tr>
+                <td class="first"><a href="/admin/gallery"><img alt="" src="/images/admin/gallery-add-icon.png" /></a>
+                </td>
+                <td class="last">
+                    Создание и редактирование фотоальбомов
+                </td>
+            </tr>
+            <tr>
+                <td class="first"><a href="/admin/guestbook"><img alt="" src="/images/admin/guestbook-edit-icon.png" /></a>
+                </td>
+                <td class="last">
+                    Редактирование гостевой книги
+                </td>
+            </tr>
+            <tr>
+                <td class="first"><a href="/admin/users"><img alt="" src="/images/admin/user-properties-icon.png" /></a>
+                </td>
+                <td class="last">
+                    Редактирование профиля пользователя
+                </td>
+            </tr>
+        </table>
+    </div>

@@ -1,0 +1,60 @@
+<!-- Login Form-->
+<table border="0" cellpadding="2" cellspacing="1" width="200">
+    <tr>
+        <td class="blocktitle"><b>Панель управления</b></td>
+    </tr>
+    <tr>
+        <td align="center" style="padding:3px;" class="block"><br/>
+            <div align="left" valign="top">
+                <table bgcolor="#003e5e" height="155" border="0" cellpadding="0" cellspacing="5" width="100%">
+                    <tr>
+                        <td align="center" class="lgmenu"><input onclick="return popUp();" type="submit" value="Авторизация"/>
+                            <input name="login" type="hidden" id="login" value="submit" border="0"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="lgmenu"><a href="/register">Регистрация</a> | <a href="indexb26f.html?do=lostpassword">Забыли пароль?</a></td>
+                    </tr>
+                    <tr>
+                        <td height="0" align="left" valign="top">
+                            
+                            % if ($self->cookie('user')) {
+                                <h2><%= $self->cookie('user') %></h2>
+
+                                <a href="/sign_out">Выход</a>
+                            % } else {
+
+                            <div id="signUpBlock">
+                                <div id="darkBack"></div>
+                                <!--div id="hiddenBlock"-->
+                                <!--div id="signUpForm"-->
+                                <a class="closeWindow" href="#" title="" onclick="return closePopUp();"></a>
+                                <form method="post" action="/sign_in">
+
+                                <div class="lgmtitle"><b>&nbsp;&nbsp;Логин: </b><input name="u_name" type="text" class="lgn"/>
+                                    <div style="padding:4px"></div>
+                                    <b>Пароль: </b><input type="password" name="u_password" id="password" class="lgn"/>
+                                    <div style="padding:4px"></div>
+                                    <div align="center"><button id="but" type="submit" value="войти" class="butt">Войти</button>
+                                        <div style="padding:4px"></div>
+                                        <input name="login" type="hidden" id="login" value="submit"/>
+                                    </div>
+                                </div>                  
+
+                                </form>
+
+                                <!--/div-->
+                                <!--/div-->
+                            </div>
+
+                            % }
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br/>
+        </td>
+    </tr>
+</table><br/>
+<!--/Login Form-->

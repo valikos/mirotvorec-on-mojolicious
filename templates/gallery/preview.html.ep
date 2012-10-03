@@ -1,0 +1,196 @@
+% my $loop = 1;
+% layout 'main', title => join ' ', '::', 'Галерея', '::', $var->{'g_title'};
+
+<script type="text/javascript" src="/js/mirotvorec/comment.js"></script>
+
+<style type="text/css">
+    /*demo page css*/
+    /*body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}*/
+    .demoHeaders { margin-top: 2em; }
+    #dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+    #dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+    ul#icons {margin: 0; padding: 0;}
+    ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+    ul#icons span.ui-icon {float: left; margin: 0 4px;}
+    .photo-container {
+        width: 600px;
+        font-size:0;
+        clear: both;
+        container: ".";
+        text-align: left;
+        margin: 0 auto;
+        display: block;
+    }
+    .photo-row {
+        position: relative;
+        display: inline-block;
+        height: 140px;
+        width: 140px;
+        margin: 2px 2px 2px 2px;
+        border: 3px solid #9B9B9B;
+    }
+    .photo-row a {
+        background: none repeat scroll 0 0 #F1F1F1;
+        display: block;
+        height: 140px;
+        overflow: hidden;
+        text-align: center;
+        width: 140px;
+    }
+</style>
+
+<script type="text/javascript"> 
+    $(function() {
+        // console.log( $('.photo_box').length );
+            $("a[rel=example_group]").fancybox({
+                'transitionIn'      : 'none',
+                'transitionOut'     : 'none',
+                'titlePosition'     : 'over',
+                'titleFormat'       : function(title, currentArray, currentIndex, currentOpts) {
+                    return '<span id="fancybox-title-over">Фото ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+                }
+            });
+    });
+</script>
+
+<style type="text/css">
+    /*demo page css*/
+    /*body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}*/
+    .demoHeaders { margin-top: 2em; }
+    #dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+    #dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+    ul#icons {margin: 0; padding: 0;}
+    ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+    ul#icons span.ui-icon {float: left; margin: 0 4px;}
+</style>
+<!-- -->
+<div id="dialog" title="Редактирование комментария" style="display:none">
+    <form id="edit_com_form" action="" method="post">
+        <textarea id="edit_com_area" class="markItUpEditor" rows="3" cols="80" class="text" name="c_comment"></textarea>
+    </form>
+</div>
+
+<div id="del-comment" title="Редактирование комментария" style="display:none">
+    <input type="hidden" id="del-comment-id" value="" />
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Предупреждение:</strong> Удалить комментарий?
+    </p>
+</div>
+
+<div id="warning-load" title="Редактирование комментария" style="display:none">
+    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <strong>Предупреждение:</strong> Ошибка загрузки коментария.
+        </p>
+    </div>
+</div>
+
+<div id="warning-update" title="Редактирование комментария" style="display:none">
+    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <strong>Предупреждение:</strong> Невозможно обновить комментарий.
+        </p>
+    </div>
+</div>
+
+<div id="warning-delete" title="Редактирование комментания" style="display:none">
+    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <strong>Предупреждение:</strong> Невозможно удалить комментарий.
+        </p>
+    </div>
+</div>
+
+<script type="text/javascript" >
+$(document).ready(function() {
+    // Add markItUp! to your textarea in one line
+    // $(‘textarea’).markItUp( { Settings }, { OptionalExtraSettings } );
+    $('textarea.markItUpEditor').markItUp(myBbcodeSettings);
+    $('textarea.markItUpEditor').focus();
+});
+</script>
+
+    <div class="top-bar">
+        <h1><%= $var->{'g_title'} %></h1>
+        <div class="breadcrumbs">
+        </div>
+    </div><br />
+    <div class="content-separator"></div>
+    
+    <div class="table">
+        <div id="gallery">
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing form" cellpadding="0" cellspacing="0">
+            <tr>
+                <th class="full" colspan="3">Фотографии</th>
+            </tr>
+            % if ($var) {
+            <tr class="bg">
+                <td class="left">
+                    <%= $var->{'g_description'} %>
+                </td>
+            </tr>
+            % }
+            <tr>
+            <td style="padding:0">
+                <div id="photo-container" class="photo-container">
+                % if ($photos) {
+                    <span id="empty-album" style="font-size:12px; display: none">Альбом пустой</span>
+                    % foreach (@$photos) {
+                    <div class="photo-row" id="box_<%= $_->{g_id} %>_<%= $_->{p_id} %>">
+                        <div class="delPic" id="del_<%= $_->{g_id} %>_<%= $_->{p_id} %>"></div>
+                        <a rel="example_group" href="/images/original/<%== $_->{p_name} =%>" title="">
+                            <img style="width:140px;heght:140px;" src="/images/scaled/<%= $_->{p_name} %>" alt="" />
+                        </a>
+                    </div>
+                    % }
+                % } else {
+                    <span id="empty-album" style="font-size:12px">Альбом пустой</span>
+                % }
+                </div>
+            </td>
+            </tr>
+        </table> 
+        </div>
+        </br>
+    
+
+    <!--comments-->
+    %= include 'parts/comments'
+    <!--comment form-->
+    % if ($USER) {
+    <br />
+    %= 'Ошибка' if (flash 'empty_msg');
+                <div class="table">
+                    <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                    <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                    <form method="post" action="/add/gallery/comment/<%= $var->{'g_id'} %>">
+                    <table class="listing form" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th class="full">Оставить комментарий</th>
+                        </tr>
+                        <tr class="bg">
+                            <td class="first last" style="padding:5px">
+                                <textarea class="markItUpEditor" rows="3" cols="80" class="text" name="c_comment"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="first last"><input class="submit-button" type="submit" name="Добавить" value="Добавить" /></td>
+                        </tr>
+                    </table>
+                    </form>
+                </div>
+    % } else {
+        <div style="text-align:center;">
+            <img alt="" src="/images/alert.png" />
+            <br />
+            Оставлять комментарии могут только зарегистрированные пользователи!<br />
+            Зарегистрируйтесь или авторизируйтесь.
+        </div>
+    % } 
+</div>

@@ -1,0 +1,48 @@
+% layout 'admin';
+
+    <div class="top-bar">
+        <h1><%= $message %></h1>
+        <div class="breadcrumbs">
+%     if ($err) {
+%       foreach (@$err) {
+            <h2><%= $_ %></h2>
+%       }
+%     }
+        </div>
+    </div>
+    
+    <div class="table">
+<form action="<%= url_for->base %>/admin/gallery" method="post" enctype="multipart/form-data">
+% if ($var) {
+<input type="hidden" name="a_id" value="<%= $var->{g_id} %>" />
+% }
+<input type="hidden" name="ac" value="update" />
+
+<table>
+<tr>
+    <td>Автор</td><td><input type="text" name="g_author" value="<%= $var->{'g_author'} %>" /></td>
+</tr>
+<tr>
+    <td>Заголовок</td><td><input type="text" name="g_title" value="<%= $var->{'g_title'} %>" /></td>
+</tr>
+<tr>
+    <td>Описание</td>
+    <td>
+    <textarea class="markItUpEditor" rows="15" cols="80" name="g_description"><%= $var->{'g_description'} %></textarea>
+    </td>
+</tr>
+<tr>
+    <td>Изображение</td>
+    <td><input type="file" name="preview" value="Загрузить" /></td>
+</tr>
+</table>
+
+% if ($var->{g_id} && $var->{g_id} > 0) {
+<input type="submit" value="Изменить" />
+% } else {
+<input type="submit" value="Добавить" />
+% }
+
+<a href="<%= url_for->base %>/admin/gallery?ac=view&page=<%= $page %>">назад</a>
+</form>
+</div>

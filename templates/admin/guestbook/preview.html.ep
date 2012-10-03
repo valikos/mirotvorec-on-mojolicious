@@ -1,0 +1,88 @@
+% my $var = $self->stash('var');
+% my $num = 1;
+% layout 'admin', title => join ' ', '::', 'Гостевая книга';
+            <div class="top-bar">
+                <h1>Гостевая книга</h1>
+                <div class="breadcrumbs"></div>
+            </div><br />
+            <div class="content-separator"></div>
+
+            <div class="table">
+            % if ($self->stash('var')) {
+                % foreach (@$var) {
+                <div class="table_item">
+                <img src="<%= url_for->base %>/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                <img src="<%= url_for->base %>/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                <table class="listing" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th colspan="3" class="first last" width="20"><%= $_->{g_create} %></th>
+                    </tr>
+                    <tr class="bg">
+                        <td class="first style1"><strong><i><%= $_->{g_user} %> : </i></strong><%= $_->{g_mes} %></td>
+                        <td width="20">
+                            <a href="<%= url_for->base %>/admin/guestbook?ac=edit&page=<%= $page %>&g_id=<%= $_->{g_id} %>">
+                                <img src="<%= url_for->base %>/img/edit-icon.gif" width="16" height="16" alt="Править" />
+                            </a>
+                        </td>
+                        <td width="20" class="last">
+                            <form method="post" action="/admin/guestbook/p/<%= $page %>">
+                                <input type="hidden" name="ac" value="del" />
+                                <input type="hidden" name="page" value="<%= $page %>" />
+                                <input type="hidden" name="g_id" value="<%= $_->{g_id} %>" />
+                                <input type="image" src="/img/hr.gif" alt="Удалить" name="Удалить" value="Удалить" onclick="return confirm('Удалить запись?');"/>
+                            </form>
+                        </td>
+                    </tr>
+                        % if ($_->{g_answer} && $_->{g_answer} ne q``) {
+                    <tr>
+                        % my $mode = '';
+                        % $mode = 'администратор' if $_->{u_mode} == 2;
+                        % $mode = 'участник' if $_->{u_mode} == 1;
+                        <td class="first last" colspan="3"><i><%= $_->{u_login} %> (<%= $mode %>) : <%= $_->{g_answer} %></i></td>
+                    </tr>
+                        % }
+                </table>
+                    <br />
+                </div>
+
+                    % }
+            % } else {
+            <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+            <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+            <table class="listing" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="full">Гостевая книга</th>
+                </tr>
+                <tr>
+                    <td class="first last" style="text-align:center">Гостевая книга пустая</td>
+                </tr>
+            </table>
+            % }
+
+        % if ($pages) {
+        
+        <div class="pager">
+            <div id="pager">
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $("#pager").paginate({
+                    count                   : <%= $pages %>,
+                    start                   : <%= $page %>,
+                    display                 : 18,
+                    border                  : false,
+                    border                  : false,
+                    text_color              : '#888',
+                    background_color        : '#EEE',   
+                    text_hover_color        : 'black',
+                    background_hover_color  : '#CFCFCF',
+                    onChange                : function(page){
+                        location = '/admin/guestbook/p/' + page;
+                    }
+                });
+            });
+            </script>
+        </div>
+        
+        % }
+        </div>

@@ -1,0 +1,128 @@
+/* -------------------------------------------------------------------
+// markItUp!
+// By Jay Salvat - http://markitup.jaysalvat.com/
+// ------------------------------------------------------------------*/
+.markItUp .b a  {
+    background-image:url(images/editor/bold0000.png);
+}
+.markItUp .i a  {
+    background-image:url(images/editor/italic00.png);
+}
+.markItUp .u a  {
+    background-image:url(images/editor/underlin.png);
+}
+.markItUp .s a  {
+    background-image:url(images/editor/stroke00.png);
+}
+
+.markItUp .img a    {
+    background-image:url(images/editor/picture0.png);
+}
+.markItUp .url a    {
+    background-image:url(images/editor/link0000.png);
+}
+
+.markItUp .size a   {
+    background-image:url(images/editor/fonts000.png);
+}
+.markItUp .ol a {
+    background-image:url(images/editor/list-bullet.png);
+}
+.markItUp .ul a {
+    background-image:url(images/editor/list-numeric.png);
+}
+.markItUp .li a {
+    background-image:url(images/editor/list-item.png);
+}
+.markItUp .hr a {
+    background-image:url(images/editor/hr000000.png);
+}
+
+.markItUp .alignments a {
+    background-image:url(images/editor/align_le.png); 
+}
+.markItUp .left a   {
+    background-image:url(images/editor/align_le.png);
+}
+.markItUp .center a {
+    background-image:url(images/editor/align_ce.png);
+}
+.markItUp .right a  {
+    background-image:url(images/editor/align_ri.png);
+}
+.markItUp .justify a    {
+    background-image:url(images/editor/align_ju.png);
+}
+
+.markItUp .colors a {
+    background-image:url(images/editor/colors00.png);
+}
+    .markItUp .colors ul {
+        width:81px;
+        padding:1px;    
+    }
+    .markItUp .colors  li {
+        border:1px solid white;
+        width:25px; height:25px;
+        overflow:hidden;
+        padding:0px; margin:0px;
+        float:left;
+    }
+    .markItUp .colors ul a {
+        width:25px; height:25px;
+    }
+    .markItUp .colors ul a:hover {
+        background-color:none;
+    }
+    
+    .markItUp .colors .col1-1 a {
+        background:yellow;
+    }
+    .markItUp .colors .col1-2 a {
+        background:maroon;
+    }
+    .markItUp .colors .col1-3 a {
+        background:red;
+    }
+    
+    .markItUp .colors .col2-1 a {
+        background:blue;
+    }
+    .markItUp .colors .col2-2 a {
+        background:teal;
+    }
+    .markItUp .colors .col2-3 a {
+        background:green;
+    }
+    
+    .markItUp .colors .col3-1 a {
+        background:white;
+    }
+    .markItUp .colors .col3-2 a {
+        background:gray;
+    }
+    .markItUp .colors .col3-3 a {
+        background:black;
+    }
+    
+.markItUp .quote a  {
+    background-image:url(images/editor/quotes00.png);
+}
+.markItUp .code a   {
+    background-image:url(images/editor/code0000.png);
+}
+
+.markItUp .spoiler a    {
+    background-image:url(images/editor/spoiler0.png);
+}
+
+.markItUp .preview a {
+    background-image:url(images/editor/preview0.png);
+}
+.markItUp .previewc a {
+    background-image:url(images/editor/delete00.png);
+}
+
+.markItUp .video a { 
+    background-image:url(images/editor/video000.png); 
+}  

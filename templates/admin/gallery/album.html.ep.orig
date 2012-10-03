@@ -1,0 +1,210 @@
+% layout 'admin', title => join ' ', '::', 'Редактировать альбом', '::', $album->{'g_title'};
+
+<script>
+function insertPhoto (pId, pName) {
+    return '<div class="photo_box" id="box_<%= $album->{g_id} %>_'+pId+'" style="display:inline-block;width:144px;height:144px;background-color:#9198A9;position:relative">\
+    <div class="delPic" id="del_<%= $album->{g_id} %>_'+pId+'"></div>\
+    <a rel="example_group" href="/images/original/'+pName+'" title="">\
+    <img style="width:140px;heght:140px;margin:2px" src="/images/scaled/'+pName+'" alt="" />\
+    </a>\
+    </div>';
+}
+    $(document).ready(function() {
+        console.log( $('.photo_box').length );
+        $("#file_upload").uploadify({
+            "fileDataName"  : "Filedata",
+            "uploader"      : "/uploadify/uploadify.swf",
+            "script"        : "/uploadify/commit",
+            "cancelImg"     : "/uploadify/cancel.png",
+            "buttonText"    : "Upload",
+            "folder"        : "",
+            "queueID"       : "fileQueue",
+            "auto"          : true,
+            "multi"         : true,
+            "fileDesc"      : "Web Image Files (.JPG, .PNG)",
+            "fileExt"       : "*.jpg;*.JPG;*.png;*.PNG",
+            "onComplete"    : function(event,queueID,fileObj,response,data) {
+                var res = jQuery.parseJSON(response);
+                if (res.status > 0) {
+                    if ($('.photo_box').length == 0) $('.photos').empty();
+                    
+                    $('.photos').append( insertPhoto(res.p_id,res.photo) );
+                    
+                    // reinitial fancybox
+                    $("a[rel=example_group]").fancybox({
+                            "transitionIn"      : "none",
+                            "transitionOut"     : "none",
+                            "titlePosition"     : "over",
+                            "titleFormat"       : function(title, currentArray, currentIndex, currentOpts) {
+                                return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+                            }
+                    });
+                }
+            },
+            'scriptData'    : {
+                'g_id': '<%= $album->{g_id} %>'
+            }
+        });
+
+        $('a[rel=example_group]').fancybox({
+            "transitionIn"      : "none",
+            "transitionOut"     : "none",
+            "titlePosition"     : "over",
+            "titleFormat"       : function(title, currentArray, currentIndex, currentOpts) {
+                return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+            }
+        });
+
+    });
+</script>
+<style>
+.delPic {
+    background: url("/images/del-icon.png") no-repeat scroll 0 0 transparent;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 16px;
+}
+</style>
+<script>
+$(document).ready(function() {
+    $('.delPic').live('click', function() {
+
+        var ac = confirm('Удалить фотографию?');
+        if (ac == false) return false;
+
+        var id = $(this).attr("id");
+        var param = id.split('_');
+        $.destroy('/admin/gallery/photo/delete/' + param[1] + '/' + param[2],
+                    function (status) {
+                        if (status > 0) {
+                            $('#box_' + param[1] + '_' + param[2]).remove();
+                            if ($('.photo_box').length == 0) {
+                                $('.photos').append('Альбом пустой');
+                            }
+                        }
+                        if (status < 0) {
+                            alert('При удалении фотографии возникла ошибка!/n Повторите операцию');
+                        }
+                    });
+        return false;
+    });
+});
+</script>
+
+    <div class="top-bar">
+        <h1>Редактировать альбом: <%= $album->{'g_title'} %></h1>
+        <div class="breadcrumbs"></div>
+    </div><br />
+    
+    <div class="content-separator"></div>
+
+    <div class="table">
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing" cellpadding="0" cellspacing="0">
+            <tr>
+                <th class="full">Обложка альбома</th>
+            </tr>
+            <tr>
+                <td class="first last">
+                    <img style="float:left" src="/images/scaled/<%== $album->{'g_cover'} %>" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+% if (stash 'err') {
+    % foreach (@{stash 'err'}) {
+        <p id="<%= $_ %>" style="color:red"><%= $CFG->{$_} %></p>
+    % }
+% }
+
+    <div class="table">
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <form action="/admin/gallery/edit/<%= $album->{g_id} %>/<%= $page %>" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="g_id" value="<%= $album->{g_id} %>" />
+            <input type="hidden" name="page" value="<%= $page %>" />
+            <input type="hidden" name="ac" value="update" />
+            <table class="listing" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="full" colspan="2">Данные альбома</th>
+                </tr>
+                <tr>
+                    <td>Публикация</td>
+                    <td class="left">
+                        <input type="checkbox" name="g_publish" value="1" <%= 'checked="checked"' if ((defined(stash 'var') && %{stash 'var'}->{g_publish} eq 1 ) || $album->{g_publish} eq 1) %> />
+                    </td>
+                </tr>
+                <tr class="bg">
+                    <td>Автор</td>
+                    <td class="left">
+                        <%= $album->{'u_login'} %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Заголовок</td>
+                    <td class="left">
+                        <input style="width:440px" type="text" name="g_title" value="<%= defined(stash 'var') ? %{stash 'var'}->{'g_title'} : $album->{'g_title'} %>" />
+                    </td>
+                </tr>
+                <tr class="bg">
+                    <td>Описание</td>
+                    <td class="left">
+                        <textarea style="width:480px;height:50px" name="g_description"><%= defined(stash 'var') ? %{stash 'var'}->{'g_description'} : $album->{'g_description'} %></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Изображение</td>
+                    <td class="left">
+                        <input type="file" name="preview" value="Загрузить" />
+                    </td>
+                </tr>
+                <tr class="bg">
+                    <td>
+                        <input type="submit" value="Изменить" />
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </form>
+        
+    </div>
+
+    <div class="table">
+        <div id="gallery">
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing form" cellpadding="0" cellspacing="0">
+            <tr>
+                <th class="full" colspan="3">Загруженные фотографии</th>
+            </tr>
+            <tr class="bg">
+            <td style="padding:12px 5px 12px 5px" class="photos">
+            % if (@$photos > 0) {
+            % my $loop = 1;
+            % foreach (@$photos) {
+            <div class="photo_box" id="box_<%= $_->{g_id} %>_<%= $_->{p_id} %>" style="display:inline-block;width:144px;height:144px;background-color:#9198A9;position:relative">
+                <div class="delPic" id="del_<%= $_->{g_id} %>_<%= $_->{p_id} %>"></div>
+                <a rel="example_group" href="/images/original/<%== $_->{p_name} =%>" title="">
+                    <img style="width:140px;heght:140px;margin:2px" src="/images/scaled/<%= $_->{p_name} %>" alt="" />
+                </a>
+            </div>
+            % }
+            % } else {
+                Альбом пустой
+            % }
+            </td>
+            </tr>
+        </table>  
+        </div>
+    </div>
+
+    <div class="table">
+        <div id="fileQueue"></div>
+        <input id="file_upload" name="file_upload" type="file" />
+        <p><a href="javascript:jQuery('#file_upload').uploadifyClearQueue()">Отменить загрузку</a></p>
+        <p style="color:red">Примечание - расширенный загрузчик фотографий, возможна загрузка нескольких фотографий одновременно</p>
+    </div>

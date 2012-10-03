@@ -1,0 +1,18 @@
+% layout 'admin', title => join ' ', '::', 'Пользователи', '::', 'Редактирование';
+
+<div class="top-bar">
+    <h1>Пользователь: <%= $var->{'u_login'} %></h1>
+    <div class="breadcrumbs"></div>
+</div>
+<div class="content-separator"></div>
+% if ($err) {
+    % foreach (@$err) {
+        <p id="<%= $_ %>" style="color:red"><%= $CFG->{$_} %></p>
+    % }
+% }
+<div class="table">
+    <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+    <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+    %= include 'admin/users/self_form' if $var->{'u_id'} eq $ADMIN->{'u_id'};
+    %= include 'admin/users/other_form' if $var->{'u_id'} ne $ADMIN->{'u_id'};
+</div>

@@ -1,0 +1,169 @@
+% layout 'main', title => join ' ', '::', $var->{'a_title'};
+% my $loop = 1;
+
+<script type="text/javascript" src="/js/mirotvorec/comment.js"></script>
+
+<style type="text/css">
+    /*demo page css*/
+    /*body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}*/
+    .demoHeaders { margin-top: 2em; }
+    #dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+    #dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+    ul#icons {margin: 0; padding: 0;}
+    ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+    ul#icons span.ui-icon {float: left; margin: 0 4px;}
+</style>
+<!-- -->
+<div id="dialog" title="Редактирование комментария" style="display:none">
+    <form id="edit_com_form" action="" method="post">
+        <textarea id="edit_com_area" class="markItUpEditor" rows="3" cols="80" class="text" name="c_comment"></textarea>
+    </form>
+</div>
+
+<div id="del-comment" title="Редактирование комментария" style="display:none">
+    <input type="hidden" id="del-comment-id" value="" />
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Предупреждение:</strong> Удалить комментарий?
+    </p>
+</div>
+
+<div id="warning-load" title="Редактирование комментария" style="display:none">
+    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <strong>Предупреждение:</strong> Ошибка загрузки коментария.
+        </p>
+    </div>
+</div>
+
+<div id="warning-update" title="Редактирование комментария" style="display:none">
+    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <strong>Предупреждение:</strong> Невозможно обновить комментарий.
+        </p>
+    </div>
+</div>
+
+<div id="warning-delete" title="Редактирование комментания" style="display:none">
+    <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+            <strong>Предупреждение:</strong> Невозможно удалить комментарий.
+        </p>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function() {
+    $('textarea.markItUpEditor').markItUp(myBbcodeSettings);
+    $('textarea.markItUpEditor').focus();
+});
+</script>
+
+<div class="top-bar">
+        <h1><%= $var->{'a_title'} %></h1>
+        <div class="breadcrumbs">
+        </div>
+</div><br />
+<div class="content-separator"></div>
+
+<div class="table">
+    % if ($var) {
+        <div class="comment" style="padding-bottom:15px">
+            <%== $var->{'a_description'} %>
+        </div>
+    % } else {
+        Ошибка, информация не найдена!
+    % }
+
+    % if ($comments) {
+
+        % foreach (@$comments) {
+            <div class="table_item comm" id="comment_<%== $_->{c_id} %>" style="margin-bottom:10px">
+                <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                <table class="listing form" cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="full">
+                            <span id="uId<%= $loop %>"><%= $_->{u_login} %> <%= $_->{c_id} %></span>
+                            <!--span style="text-transform:lowercase">комментарий добавлен <%= $_->{c_create} %></span-->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="bg">
+                        <td class="first" style="padding:0;width:100px;vertical-align: top">
+                            <img style="float:left" src="<%= $_->{u_avatar} eq '' ? '/images/noavatar.png' : $_->{u_avatar} %>" alt="" width="100" height="100" />
+                        </td>
+                        <td style="vertical-align:top" id="comId<%= $_->{c_id} %>" class="last">
+                            <%== $_->{c_comment} %>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td style="text-align:left" class="first last" colspan="2">
+                            <span style="line-height: 30px;text-transform:lowercase;float:left;">Комментарий добавлен: <%= $_->{c_create} %></span>
+                            % if ($USER) {
+                            <ul id="icons" style="float:right" class="ui-widget ui-helper-clearfix">
+                                %== '<li id="dialog_link_' . $_->{c_id} . '" title="Редактировать запись" class="dialog_link ui-state-default ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></li>' if ($_->{'c_u_id'} eq $USER->{'u_id'} || $USER->{'u_mode'} eq 2);
+                                %== '<li id="delete_'.$_->{c_id}.'" title="Удалить запись" class="ui-state-default ui-corner-all del"><span class="ui-icon ui-icon-trash"></span></li>' if ($_->{'c_u_id'} eq $USER->{'u_id'} || $USER->{'u_mode'} eq 2);
+                            </ul>
+                            % }
+                            <div class="clear"></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        % }
+    % } else {
+        <div class="table">
+            <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+            <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+            <table class="listing form" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="full">Комментарии</th>
+                </tr>
+                <tr>
+                    <td class="left right">Данный материал не содержит комментариев</td>
+                </tr>
+            </table>
+        </div>
+    % }
+% if ($USER) {
+<!-- comment form -->
+<br />
+%= 'Ошибка' if (flash 'empty_msg');
+            <div class="table">
+                <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                <form method="post" action="/add/comment/<%= $var->{'a_id'} %>">
+                <table class="listing form" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th class="full">Оставить комментарий</th>
+                    </tr>
+                    <tr class="bg">
+                        <td class="first last" style="padding:5px">
+                            <textarea class="markItUpEditor" rows="3" cols="80" class="text" name="c_comment"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="first last"><input class="submit-button" type="submit" name="Добавить" value="Добавить" /></td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+% } else {
+    <div style="text-align:center;">
+        <img alt="" src="/images/alert.png" />
+        <br />
+        Оставлять комментарии могут только зарегистрированные пользователи!<br />
+        Зарегистрируйтесь или авторизируйтесь.
+    </div>
+% } 
+
+</div>

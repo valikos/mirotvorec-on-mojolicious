@@ -1,0 +1,7 @@
+% layout 'default';
+<h2><%= $message %></h2>
+<form method="post" action="/">
+    <div><label>Name___ : <input type="text" name="u_name" value="" /></label></div>
+    <div><label>SurName : <input type="text" name="u_sur_name" value="" /></label></div>
+    <div><label>E-mail_ : <input type="text" name="u_e_mail" value="" /></label></div>
+</form>

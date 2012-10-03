@@ -1,0 +1,10 @@
+% my $loop = 1;
+% layout 'main', title => ':: Правила';
+<div class="top-bar">
+    <h1>Правила</h1>
+    <div class="breadcrumbs"></div>
+</div><br />
+<div class="content-separator"></div>
+<div class="table">
+    Правила
+</div>

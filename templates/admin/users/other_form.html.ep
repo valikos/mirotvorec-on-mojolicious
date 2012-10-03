@@ -1,0 +1,73 @@
+<form method="post" action="/admin/users" enctype="multipart/form-data">
+
+    <input type="hidden" name="u_id" value="<%= $var->{u_id} %>" />
+    <input type="hidden" name="ac" value="change" />
+    <input type="hidden" name="page" value="<%= $page %>" />
+
+    <table class="listing form" cellpadding="0" cellspacing="0">
+        <tr>
+            <th class="full" colspan="2">Данные пользователя: <strong><%= $var->{'u_login'} %></strong></th>
+        </tr>
+        <tr class="bg">
+            <td class="first last" style="width:150px; padding:3px"><img src="<%= $var->{u_avatar} eq '' ? '/images/noavatar.png' : $var->{u_avatar} %>" title="Изображение пользовател" alt="Изображение пользовател" /></td>
+            <td class="last">
+                <div style="width:445px; height:150px; overflow:auto">
+                    <%= $var->{'u_about'} %>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="first"><strong>Имя</strong></td>
+            <td class="last"><%= $var->{u_name} %></td>
+        </tr>
+        <tr class="bg">
+            <td class="first" ><strong>Фамилия</strong></td>
+            <td class="last"><%= $var->{u_sname} %></td>
+        </tr>
+        <tr>
+            <td class="first"><strong>Отчество</strong></td>
+            <td class="last"><%= $var->{u_fname} %></td>
+        </tr>
+        <tr class="bg">
+            <td class="first"><strong>E-mail</strong></td>
+            <td class="last"><%= $var->{u_email} %></td>
+        </tr>
+        <tr>
+            <td class="first"><strong>Группа</strong></td>
+            <td class="last">
+                % if (($var->{'u_absolute'} == 1) || ($var->{'u_id'} == $ADMIN->{'u_id'})) {
+                    <%= 'посетитель' if $var->{'u_mode'} == 0 %>
+                    <%= 'участник' if $var->{'u_mode'} == 1 %>
+                    <%= 'администратор' if $var->{'u_mode'} == 2 %>
+                    <%= 'заблокирован' if $var->{'u_mode'} == -1 %>
+                % } else {
+                <select name="u_mode">
+                    <option value="0" <%= 'selected="selected"' if $var->{'u_mode'} == 0 %>>посетитель</option>
+                    <option value="1" <%= 'selected="selected"' if $var->{'u_mode'} == 1 %>>участник</option>
+                    % if ($ADMIN->{'u_mode'} == 2 || $ADMIN->{'u_absolute'} == 1) {
+                    <option value="2" <%= 'selected="selected"' if $var->{'u_mode'} == 2 %>>администратор</option>
+                    % }
+                    <option value="-1" <%= 'selected="selected"' if $var->{'u_mode'} == -1 %>>заблокирован</option>
+                </select>
+                % }
+            </td>
+        </tr>
+        <tr class="bg">
+            <td class="first"><strong>Телефон</strong></td>
+            <td class="last"><%= $var->{u_tel} %></td>
+        </tr>
+        <tr>
+            <td class="first"><strong>ICQ</strong></td>
+            <td class="last"><%= $var->{u_icq} %></td>
+        </tr>
+        <tr class="bg">
+            <td class="first"><strong>Skype</strong></td>
+            <td class="last"><%= $var->{u_skype} %></td>
+        </tr>
+        <tr>
+            <td class="first"><input type="submit" value="Изменить" /></td>
+            <td class="last"><a href="/admin/users?page=<%= $page %>">Вернуться</a></td>
+        </tr>
+    </table>
+
+</form>

@@ -1,0 +1,88 @@
+% my $loop = 1;
+% layout 'main', title => ':: Профиль';
+        <div class="top-bar">
+                <h1>Профиль</h1>
+                <div class="breadcrumbs">
+                </div>
+        </div><br />
+
+        <div class="content-separator"></div>
+% if ($personal) {
+<div class="table">
+      <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+      <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+      <table class="listing form" cellpadding="0" cellspacing="0">
+            <tr>
+                <th class="full" colspan="2">Данные пользователя</th>
+            </tr>
+            <tr class="bg">
+                <td class="first" style="width:150px; padding:3px">
+                    <img src="<%= $personal->{u_avatar} eq '' ? '/images/noavatar.png' : $personal->{u_avatar} %>"
+                            title="Изображение пользовател" alt="Изображение пользовател" style="width:150px;height:150px"
+                    />
+                </td>
+                <td class="last">
+                    <div style="width:445px; height:150px; overflow:auto">
+                        <%== $personal->{u_about} %>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Имя</strong></td>
+                <td class="last"><%= $personal->{u_name} %></td>
+            </tr>
+            <tr class="bg">
+                <td class="first" ><strong>Фамилия</strong></td>
+                <td class="last"><%= $personal->{u_sname} %></td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Отчество</strong></td>
+                <td class="last"><%= $personal->{u_fname} %></td>
+            </tr>
+            <tr class="bg">
+                <td class="first"><strong>E-mail</strong></td>
+                <td class="last"><%= $personal->{u_email} %></td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Группа</strong></td>
+                <td class="last">
+                    <%= 'посетитель' if $personal->{'u_mode'} == 0 %>
+                    <%= 'участник' if $personal->{'u_mode'} == 1 %>
+                    <%= 'администратор' if $personal->{'u_mode'} == 2 %>
+                    <%= 'заблокирован' if $personal->{'u_mode'} == -1 %>
+                </td>
+            </tr>
+            <tr class="bg">
+                <td class="first"><strong>Дата регистрации</strong></td>
+                <td class="last"><%= $personal->{u_create} %></td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Телефон</strong></td>
+                <td class="last"><%= $personal->{u_tel} %></td>
+            </tr>
+            <tr class="bg">
+                <td class="first"><strong>ICQ</strong></td>
+                <td class="last"><%= $personal->{u_icq} %></td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Skype</strong></td>
+                <td class="last"><%= $personal->{u_skype} %></td>
+            </tr>
+    </table>
+    <br />
+    %== '<a class="button" href="/personal/edit">Изменить</a>' if ($personal->{'u_id'} eq $USER->{'u_id'});
+</div>
+% } else {
+<div class="table">
+    <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+    <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+    <table class="listing form" cellpadding="0" cellspacing="0">
+        <tr>
+            <th class="full">Ошибка</th>
+        </tr>
+        <tr>
+            <td class="first last" style="text-align:center">Пользователь не существует</td>
+        </tr>
+    </table>
+</div>
+% }

@@ -1,0 +1,72 @@
+% my $var = $self->stash('var');
+% my $num = 1;
+% layout 'admin', title => join ' ', '::', 'Пользователи';
+
+    <div class="top-bar">
+        <h1>Пользователи</h1>
+        <div class="breadcrumbs"></div>
+    </div>
+    <div class="content-separator"></div>
+    
+    <div class="table">
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing" cellpadding="0" cellspacing="0">
+        % if ($self->stash('var')) {
+            <tr>
+                <th class="first" width="25">Логин</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>E-mail</th>
+                <th>Режим</th>
+                <th class="last">Изменить</th>
+            </tr>
+            % foreach (@$var) {
+            <tr>
+                <td><%= $_->{'u_login'} %></td>
+                <td><%= $_->{'u_name'} %></td>
+                <td><%= $_->{'u_sname'} %></td>
+                <td><%= $_->{'u_email'} %></td>
+                <td>
+                    <%== 'посетитель' if $_->{'u_mode'} == 0 %>
+                    <%== 'участник' if $_->{'u_mode'} == 1 %>
+                    <%== 'администратор' if $_->{'u_mode'} == 2 %>
+                    <%== 'заблокирован' if $_->{'u_mode'} == -1 %>
+                </td>
+                <td><a href="/admin/users?ac=edit&u_id=<%= $_->{'u_id'} %>&page=<%= $page %>"><img src="/img/edit-icon.gif" width="16" height="16" alt="Изменить" /></a></td>
+            </tr>
+            % }
+        % } else {
+            <tr>
+                <th class="first last" style="text-align:center">Список пользователей пуст</th>
+            </tr>
+        % }
+        </table>
+
+    % if ($pages) {
+        
+    <div class="pager">
+            <div id="pager">
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $("#pager").paginate({
+                    count                   : <%= $pages %>,
+                    start                   : <%= $page %>,
+                    display                 : 18,
+                    border                  : false,
+                    border                  : false,
+                    text_color              : '#888',
+                    background_color        : '#EEE',   
+                    text_hover_color        : 'black',
+                    background_hover_color  : '#CFCFCF',
+                    onChange                : function(page){
+                        location = '/admin/users?page=' + page;
+                    }
+                });
+            });
+            </script>
+    </div>
+
+    % }
+</div>

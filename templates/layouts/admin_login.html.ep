@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>Миротвоврец - Запорожье :: Панель администрирования</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <style media="all" type="text/css">@import "/css/all.css";</style>
+</head>
+<body>
+<div id="main">
+    <div>
+        <div>
+                <a href="/" class="logo" style="z-index:5"><img src="/img/logo.gif" alt="" /></a>
+                <div id="banner"></div>
+        </div>
+        <div id="header">
+        </div>
+    </div>
+    <div id="middle">
+        <div id="left-column">
+        </div>
+        <div>
+            <div class="table">
+                <img src="img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                <img src="img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                <form method="post" action="/admin">
+                <table class="listing form" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th class="full" colspan="2">Авторизация администратора</th>
+                    </tr>
+                    <tr>
+                        <td class="first" width="172"><strong>Логин</strong></td>
+                        <td class="last"><input type="text" class="text" name="a_login" value="" /></td>
+                    </tr>
+                    <tr class="bg">
+                        <td class="first"><strong>Пароль</strong></td>
+                        <td class="last"><input type="password" class="text" name="a_password" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td class="first" width="172">
+                          % if (flash 'login_error') {
+                            <p style="color:red;">Ошибка авторизации</p>
+                          % }
+                        </td>
+                        <td class="last"><input type="submit" name="Авторизация" value="Авторизация" /></td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+        </div>
+        <div id="right-column">
+        </div>
+    </div>
+    <div id="footer">
+        <a href="http:\\mojolicio.us"><img src="/mojolicious-black.png" /></a>
+    </div>
+</div>
+</body>
+</html>

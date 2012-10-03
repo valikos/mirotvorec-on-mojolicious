@@ -1,0 +1,99 @@
+% my $params = $self->stash('params');
+% my $title = defined $var ? 'Редактировать :: '.$var->{'a_title'} : 'Добавить новость';
+% my $err = $self->stash('err');
+% my $enabled = '';
+% layout 'admin', title => join ' ', '::', $title;
+
+    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+    <!--script src="/ckeditor/_samples/sample.js" type="text/javascript"></script>
+    <link href="/ckeditor/_samples/sample.css" rel="stylesheet" type="text/css" /-->
+
+    <div class="top-bar">
+                <a href="/admin/articles?ac=edit" class="button">добавить </a>
+                <h1><%= $title %></h1>
+                
+                <div class="breadcrumbs"></div>
+    </div><br />
+    <!--div class="select-bar">
+        <label>
+            <input type="text" name="textfield" />
+        </label>
+        <label>
+            <input type="submit" name="Submit" value="Search" />
+        </label>
+    </div-->
+    <div class="content-separator"></div>
+% if ($err) {
+    % foreach (@$err) {
+        <p id="<%= $_ %>" style="color:red"><%= $CFG->{$_} %></p>
+    % }
+% }
+            <div class="table">
+                <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                    <form action="/admin/articles" method="post" enctype="multipart/form-data">
+                    % if (defined $var) {
+                        <input type="hidden" name="a_id" value="<%= $var->{a_id} %>" />
+                        % $enabled = 'disabled="disabled"' unless ($ADMIN->{u_mode} eq 2) || ($var->{'a_u_id'} eq $ADMIN->{u_id});
+                    % }
+                        <input type="hidden" name="ac" value="update" />
+                        <table class="listing" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <th class="first last" colspan="2">Редактор новостей</th>
+                            </tr>
+                            <tr class="bg">
+                                <td>Публикация</td>
+                                <td class="left"><input type="checkbox" name="a_publish" value="1" <%= 'checked="checked"' if $var->{a_publish} eq 1 %> <%= $enabled %> /></td>
+                            </tr>
+                            <tr>
+                                <td>Категория</td>
+                                <td class="left">
+                                    <select name="a_cat">
+                                        <option value="Новости">Новость</option>
+                                        <option value="События">Событие</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="bg">
+                                <td>Автор</td>
+                                <td class="left">
+                                    <%= $var->{'a_u_login'} || $ADMIN->{'u_login'} %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Заголовок</td>
+                                <td class="left">
+                                    <input style="width:440px" type="text" name="a_title" value="<%== $var->{'a_title'} %>" />
+                                </td>
+                            </tr>
+                            <tr class="bg">
+                                <td colspan="2">Описание (краткое описание новости)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <textarea class="ckeditor" name="a_preview"><%== $var->{'a_preview'} %></textarea>
+                                </td>
+                            </tr>
+                            <tr class="bg">
+                                <td colspan="2">Содержание (ополное содержание новости)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <textarea class="ckeditor" name="a_description"><%== $var->{'a_description'} %></textarea>
+                                </td>
+                            </tr>
+                            <tr class="bg">
+                                <td>
+                                % if ($var->{a_id} > 0) {
+                                    <input type="submit" value="Изменить" />
+                                % } else {
+                                    <input type="submit" value="Добавить" />
+                                % }
+                                </td>
+                                <td class="left">
+                                    <a href="/admin/users?ac=view&page=<%= $page %>">Назад</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+            </div>

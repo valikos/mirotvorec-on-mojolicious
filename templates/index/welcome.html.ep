@@ -1,0 +1,102 @@
+% my $loop = 1;
+% layout 'main', title => ':: Новости';
+        <div class="top-bar">
+                <h1>Новости</h1>
+                <div class="breadcrumbs">
+                </div>
+        </div><br />
+        <!--
+        <div class="select-bar">
+                <label>
+                <input type="text" name="textfield" />
+                </label>
+                <label>
+                <input type="submit" name="Submit" value="Поиск" />
+                </label>
+        </div>
+        -->
+        <div class="content-separator"></div>
+        <div class="table">
+        % if ($var) {    
+            % foreach (@$var) {
+            <div class="table_item">
+            <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+            <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                <table class="listing" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <th class="first last" align="left" colspan="2"> 
+                    <div style="padding:5px; font-family:Verdana,Sans-Serif; color:#ffffff; font-size:11px; font-weight:normal;">
+                        <!--a href="/"><b><%= $_->{'a_cat'} %>:</b></a-->
+                        <b><a href="/article/<%== $_->{'a_id'} %>"><%= $_->{'a_title'} %></a></b> (<%= $_->{'a_cat'} %>)
+                    </div>
+                    </th>
+                </tr>
+                <tr> 
+                    <td class="first style1 last" colspan="2">
+                        <!--
+                        <br />
+                        -->
+                        <div><%== $_->{'a_preview'} %></div>
+                        <br />
+                    </td>
+                </tr>
+                <tr> 
+                    <td height="24" colspan="2">
+                        <!--
+                        Комментариев:
+                        <a href="/"><b><%= $_->{'a_comments'} %></b></a>
+                        -->
+                        <b>Автор:</b> <b><a href="#"><%= $_->{'a_u_login'} %></a></b> | <%= $_->{'a_create'} %> | 
+                        <a href="/article/<%== $_->{'a_id'} %>">
+                            Читать дальше 
+                            <img src="data:image/gif;base64,R0lGODlhGAAHAJECAP8AAPz65v///wAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFZAACACwAAAAAGAAHAAACG1QihprXm6JjdM74cl0XWw5qUriJ2ndC6UpFBQAh+QQFAAACACwBAAAABQAHAAACCgSEYqmX2xCEogAAIfkEBQAAAgAsBQAAAAUABwAAAgoEhGKpl9sQhKIAACH5BAUAAAIALAkAAAAFAAcAAAIKBIRiqZfbEISiAAAh+QQFAAACACwBAAAAEQAHAAACF0yEqQBqCgVzJ6aZnkVY7159jeBZmFAAACH5BAUAAAIALAUAAAARAAcAAAIXTISpAGoKBXMnppmeRVjvXn2N4FmYUAAAIfkEBQAAAgAsCQAAAAUABwAAAgpMhGKpl9sQhKIAACH5BAUAAAIALA0AAAAFAAcAAAIKTIRiqZfbEISiAAA7"
+                                 width="24" height="7" border="0" title="Читать полный текст новости" />
+                        </a>
+                    </td>
+                </tr>
+                </table>
+                <br />
+            % if ($loop < scalar (@$var) ) {
+            % $loop++; }
+            </div> <!-- end of table_item -->
+                % }
+        % } else {
+            <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+            <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+            <table class="listing" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="full">Новости</th>
+                </tr>
+                <tr>
+                    <td class="first last" style="text-align:center">В данный момент новости отсутствуют</td>
+                </tr>
+            </table>
+        % }
+        
+        % if ($pages) {
+        
+        <div class="pager">
+            <div id="pager">
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $("#pager").paginate({
+                    count                   : <%= $pages %>,
+                    start                   : <%= $page %>,
+                    display                 : 18,
+                    border                  : false,
+                    border                  : false,
+                    text_color              : '#888',
+                    background_color        : '#EEE',   
+                    text_hover_color        : 'black',
+                    background_hover_color  : '#CFCFCF',
+                    onChange                : function(page){
+                        location = '<%= url_for->base->path('/page/') %>' + page;
+                    }
+                });
+            });
+            </script>
+        </div>
+        
+        % }
+</div>

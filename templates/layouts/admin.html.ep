@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>Миротвоврец - Запорожье :: Панель администрирования <%= title %></title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <style media="all" type="text/css">@import "/css/all.css";</style>
+
+    <!--  jQuery -->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.rest.js"></script>
+    
+    <!-- Paginate -->
+    <script type="text/javascript" src="/jPaginate/jquery.paginate.js"></script>
+    <link rel="stylesheet" type="text/css" href="/jPaginate/css/style.css" />
+
+    <!-- WTF -->
+    <!--script type="text/javascript" src="<%= url_for->base %>/js/resizer0.js"></script>
+    <script type="text/javascript" src="<%= url_for->base %>/js/parser00.js"></script>
+    <script type="text/javascript" src="<%= url_for->base %>/js/ajax.js"></script-->
+
+    <!--  markitup -->
+    <script type="text/javascript" src="<%= url_for->base->path('/markitup/jquery.markitup.js') %>"></script>
+    <script type="text/javascript" src="<%= url_for->base->path('/markitup/bbcode/set.js') %>"></script>
+    <link rel="stylesheet" type="text/css" href="<%= url_for->base->path('/markitup/bbcode/style.css') %>" />
+    <link rel="stylesheet" type="text/css" href="<%= url_for->base->path('/markitup/skins/markitup/style.css') %>" />
+
+
+    <!--link rel="stylesheet" type="text/css" href="<%= url_for->base %>/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="<%= url_for->base %>/css/style000.css" />
+    <link rel="stylesheet" type="text/css" href="<%= url_for->base %>/css/style001.css" /-->
+
+    <!-- Uplodify -->
+    <script type="text/javascript" src="/uploadify/uploadify.js"></script>
+    <script type="text/javascript" src="/uploadify/swfobject.js"></script>
+    <link rel="stylesheet" href="/uploadify/uploadify.css" type="text/css" />
+    <!-- FancyBox -->
+    <script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+    <script type="text/javascript" src="/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+</head>
+<body>
+<div id="main">
+    <div>
+        <div>
+                <a href="/" class="logo" style="z-index:5"><img src="/img/logo.gif" alt="" /></a>
+                <div id="banner"></div>
+        </div>
+        <div id="header">
+            <ul id="top-navigation">
+            % if ($page_id eq 'main') {
+            <li class="active"><span><span><a href="/admin/">Главная</a></span></span></li>
+            % } else {
+            <li><span><span><a href="/admin/">Главная</a></span></span></li>
+            % }
+            % if ($page_id eq 'users') {
+            <li class="active"><span><span><a href="/admin/users">Пользователи</a></span></span></li>
+            % } else {
+            <li><span><span><a href="/admin/users">Пользователи</a></span></span></li>
+            % }
+            % if ($page_id eq 'articles') {
+            <li class="active"><span><span><a href="/admin/articles">Новости</a></span></span></li>
+            % } else {
+            <li><span><span><a href="/admin/articles">Новости</a></span></span></li>
+            % }
+            % if ($page_id eq 'gallery') {
+            <li class="active"><span><span><a href="/admin/gallery">Галерея</a></span></span></li>
+            % } else {
+            <li><span><span><a href="/admin/gallery">Галерея</a></span></span></li>
+            % }
+            % if ($page_id eq 'guestbook') {
+            <li class="active"><span><span><a href="/admin/guestbook">Гостевая</a></span></span></li>
+            % } else {
+            <li><span><span><a href="/admin/guestbook">Гостевая</a></span></span></li>
+            % }
+            <li><span><span><a href="/admin/sign_out">Выход</a></span></span></li>
+            </ul>
+        </div>
+    </div>
+    <div id="middle">
+        <div id="left-column">
+            <a href="/admin/rules" class="link">Правила</a>
+        </div>
+        
+        <div id="center-column">
+            <%== content %>
+        </div>
+        
+        <div id="right-column">
+            <strong class="h">Авторизация</strong>
+            <div class="box">
+                <b>Пользователь: </b><%= $ADMIN->{'u_login'} %><br />
+                <b>Группа: </b><%= 'администратор' if $ADMIN->{'u_mode'} eq 2 =%><%= 'участник' if $ADMIN->{'u_mode'} eq 1 =%>
+                <br /><br />
+                <a href="/admin/sign_out">выход</a>
+            </div>
+      </div>
+    </div>
+    <div id="footer">
+        <a href="http:\\mojolicio.us"><img src="/mojolicious-black.png" /></a>
+    </div>
+</div>
+
+
+</body>
+</html>

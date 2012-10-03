@@ -1,0 +1,89 @@
+% layout 'main', title => ':: Изменить профиль';
+        <div class="top-bar">
+                <h1>Изменить профиль</h1>
+                <div class="breadcrumbs">
+                </div>
+        </div><br />
+
+        <div class="content-separator"></div>
+% if ($var) {
+<div class="table">
+      <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+      <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+      <form method="post" action="/personal/change" enctype="multipart/form-data">
+      <input type="hidden" name="u_id" value="<%= $USER->{u_id} %>" />
+      <table class="listing form" cellpadding="0" cellspacing="0">
+            <tr>
+                <th class="full" colspan="2">Данные пользователя</th>
+            </tr>
+            <tr class="bg">
+                <td class="first last" style="width:150px; padding:3px">
+                    <img src="<%= $var->{u_avatar} eq '' ? '/images/noavatar.png' : $var->{u_avatar} %>"
+                        title="Изображение пользовател" alt="Изображение пользовател" style="width:150px;height:150px"
+                    />
+                </td>
+                <td class="last">
+                    <textarea name="u_about" style="width:440px; height:150px;"><%= $var->{u_about} %></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Имя</strong></td>
+                <td class="last"><input class="text" type="text" name="u_name" value="<%= $var->{u_name} %>" /></td>
+            </tr>
+            <tr class="bg">
+                <td class="first" ><strong>Фамилия</strong></td>
+                <td class="last"><input class="text" type="text" name="u_sname" value="<%= $var->{u_sname} %>" /></td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Отчество</strong></td>
+                <td class="last"><input class="text" type="text" name="u_fname" value="<%= $var->{u_fname} %>" /></td>
+            </tr>
+            <tr class="bg">
+                <td class="first"><strong>E-mail</strong></td>
+                <td class="last"><input class="text" type="text" name="u_email" value="<%= $var->{u_email} %>" /></td>
+            </tr>
+            <tr>
+                <td class="first"><strong>Группа</strong></td>
+                <td class="last">
+                    <%== 'посетитель' if $var->{'u_mode'} == 0 %>
+                    <%== 'участник' if $var->{'u_mode'} == 1 %>
+                    <%== 'администратор' if $var->{'u_mode'} == 2 %>
+                    <%== 'заблокирован' if $var->{'u_mode'} == -1 %>
+                </td>
+            </tr>
+            <tr class="bg">
+                <td class="first"><strong>Телефон</strong></td>
+                <td class="last"><input class="text" type="text" name="u_tel" value="<%= $var->{u_tel} %>" /></td>
+            </tr>
+            <tr>
+                <td class="first"><strong>ICQ</strong></td>
+                <td class="last"><input class="text" type="text" name="u_icq" value="<%= $var->{u_icq} %>" /></td>
+            </tr>
+            <tr class="bg">
+                <td class="first"><strong>Skype</strong></td>
+                <td class="last"><input class="text" type="text" name="u_skype" value="<%= $var->{u_skype} %>" /></td>
+            </tr>
+            <tr>
+                <td class="first">Изображение</td>
+                <td class="last"><input type="file" name="u_avatar" /></td>
+            </tr>
+            <tr class="bg">
+                <td class="first last" colspan="2"><input type="submit" value="Изменить" /></td>
+            </tr>
+    </table>
+    </form>
+</div>
+% } else {
+<div class="table">
+    <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+    <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+    <table class="listing form" cellpadding="0" cellspacing="0">
+        <tr>
+            <th class="full">Ошибка</th>
+        </tr>
+        <tr>
+            <td class="first last" style="text-align:center">Редактироать профиль может только зарегистрированный пользователь</td>
+        </tr>
+    </table>
+</div>
+% }

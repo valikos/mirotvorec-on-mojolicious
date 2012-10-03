@@ -1,0 +1,67 @@
+% # my $var = $self->stash('var');
+% # my $page = $self->stash('page');
+% # my $num = 1;
+% layout 'admin', title => ':: Галерея';
+
+    <div class="top-bar">
+        <!--a href="/admin/gallery?ac=edit&page=<%= $page %>" class="button">добавить </a-->
+        <a href="/admin/gallery/<%= $page %>/create" class="button">добавить </a>
+        <h1>Галерея</h1>
+        <div class="breadcrumbs"></div>
+    </div>
+    <br />
+
+    <div class="content-separator"></div>
+    <div class="table">
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing" cellpadding="0" cellspacing="0">
+        % if ($self->stash('var')) {
+            <tr>
+                <th class="first" style="width:100px;">Обложка</th>
+                <th>Автор</th>
+                <th>Заголовок</th>
+                <th>Дата</th>
+                <th>Публикация</th>
+                <th>Изменть</th>
+                <th class="last">Удалить</th>
+            </tr>
+            % foreach (@$var) {
+            <tr>
+                <td class="first"><img style="width:100px;height:100px" src="/images/scaled/<%= $_->{g_cover} %>" /></td>
+                <td><%= $_->{u_login} %></td>
+                <td><%== $_->{g_title} %></td>
+                <td><%= $_->{g_create} %></td>
+                <td>
+                    %= 'да' if $_->{'g_publish'} eq 1;
+                    %= 'нет' if $_->{'g_publish'} eq 0;
+                </td>
+                <td>
+                    <a href="/admin/gallery/edit/<%= $_->{g_id} %>/<%= $page %>">
+                        <img src="/img/edit-icon.gif" width="16" height="16" alt="" />
+                    </a>
+                </td>
+                <td class="last">
+                    % if ($ADMIN->{u_mode} eq 2) {
+                    <form method="post" action="/admin/gallery/delete/<%= $_->{g_id} %>">
+                        <input type="hidden" name="ac" value="del" />
+                        <input type="hidden" name="page" value="<%= $page %>" />
+                        <input type="hidden" name="g_id" value="<%= $_->{g_id} %>" />
+                        <input type="image" src="/img/hr.gif" name="Удалить" value="Удалить" onclick="return confirm('Удалить альбом?');" />
+                    </form>
+                    % } else {
+                        ---
+                    % }
+                </td>
+            </tr>
+            % }
+        % } else {
+            <tr>
+                <th class="full">Галерея</th>
+            </tr>
+            <tr>
+                <td class="first last" style="text-align:center">В данный момент галерея не содержит материала</td>
+            </tr>
+        % }
+        </table>
+    </div>

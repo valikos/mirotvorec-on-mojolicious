@@ -1,0 +1,56 @@
+% my $var = $self->stash('var');
+% my $num = 1;
+% layout 'admin';
+	<div class="top-bar">
+                <a href="<%= url_for->base %>/admin/articles?ac=edit" class="button">добавить </a>
+                <h1><%= $message if $message %></h1>
+                <div class="breadcrumbs"></div>
+    </div>
+    <div class="table">
+    	<img src="<%= url_for->base %>/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+    	<img src="<%= url_for->base %>/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing" cellpadding="0" cellspacing="0">
+        % if ($self->stash('var')) {
+            <tr>
+            	<th class="first" width="20">Номер</th>
+                <th>Автор</th>
+                <th width="177">Заголовок</th>
+                <th>Дата</th>
+                <th>Изменть</th>
+                <th class="last">Удалить</th>
+            </tr>
+        	% foreach (@$var) {
+            <tr>
+                <td class="first style1"><%= $num++ %> [<%= $_->{a_id} %>]</td>
+                <td><%= $_->{a_author_name} %></td>
+                <td><%= $_->{a_title} %></td>
+                <td><%= $_->{a_date_add} %></td>
+                <td>
+                	<a href="<%= url_for->base %>/admin/articles?ac=edit&page=<%= $page %>&a_id=<%= $_->{a_id} %>">
+                    	<img src="<%= url_for->base %>/img/edit-icon.gif" width="16" height="16" alt="Править" />
+                    </a>
+                </td>
+                <td class="last">
+                <form method="post" action="<%= url_for->base %>/admin/articles">
+                		<input type="hidden" name="ac" value="del" />
+                		<input type="hidden" name="page" value="<%= $page %>" />
+                		<input type="hidden" name="a_id" value="<%= $_->{a_id} %>" />
+                		<input type="image" src="<%= url_for->base %>/img/hr.gif" alt="Удалить" name="Удалить" value="Удалить" />
+                	</form>
+                </td>
+            </tr>
+        	% }
+        % } else {
+            <tr>
+            	<th class="first last" style="text-align:center">Статьи отсутствуют</th>
+            </tr>
+        % }
+        </table>
+
+        <div class="select">
+            <strong>Страницы: </strong>
+            <select>
+            <option>1</option>
+            </select>
+        </div>
+    </div>    

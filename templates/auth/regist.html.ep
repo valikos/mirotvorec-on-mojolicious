@@ -1,0 +1,15 @@
+% layout 'main', title => join ' ', '::', 'Регистрация пользователя';
+
+<div class="top-bar">
+        <h1>Регистрация завершена</h1>
+        <div class="breadcrumbs">
+        </div>
+</div><br />
+<div class="content-separator"></div>
+<div class="table">
+<p>Пользователь успешно зарегистрирован.<br />
+Теперь Вы можете войти под своим логином и паролем.
+</p>
+
+<a href="/register">Вернуться</a>
+</div>

@@ -1,0 +1,94 @@
+% my $var = $self->stash('var');
+% my $num = 1;
+% layout 'admin', title => join ' ', '::', 'Новости';
+
+    <div class="top-bar">
+                <a href="<%= url_for->base %>/admin/articles?ac=edit" class="button">добавить </a>
+                <h1>Новости</h1>
+                <div class="breadcrumbs"></div>
+    </div><br />
+    <!--div class="select-bar">
+        <label>
+            <input type="text" name="textfield" />
+        </label>
+        <label>
+            <input type="submit" name="Submit" value="Search" />
+        </label>
+    </div-->
+    <div class="content-separator"></div>
+    <div class="table">
+        <img src="<%= url_for->base %>/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="<%= url_for->base %>/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing" cellpadding="0" cellspacing="0">
+        % if ($self->stash('var')) {
+            <tr>
+                <th class="first" width="20">Номер</th>
+                <th>Автор</th>
+                <th width="177">Заголовок</th>
+                <th>Дата</th>
+                <th>Публикация</th>
+                <th>Изменть</th>
+                <th class="last">Удалить</th>
+            </tr>
+            % foreach (@$var) {
+            <tr>
+                <td class="first style1"><%= $num++ %> [<%= $_->{a_id} %>]</td>
+                <td><%= $_->{a_u_login} %></td>
+                <td><%= $_->{a_title} %></td>
+                <td><%= $_->{a_create} %></td>
+                <td><%= $_->{a_publish} eq 1 ? 'да' : 'нет' %></td>
+                <td>
+                    <a href="<%= url_for 'admin_articles' %>?ac=edit&page=<%= $page %>&a_id=<%= $_->{a_id} %>">
+                        <img src="/img/edit-icon.gif" width="16" height="16" alt="Править" />
+                    </a>
+                </td>
+                <td class="last">
+                    % if ($ADMIN->{u_mode} eq 2) {
+                    <form method="post" action="<%= url_for 'admin_articles' %>">
+                        <input type="hidden" name="ac" value="del" />
+                        <input type="hidden" name="page" value="<%= $page %>" />
+                        <input type="hidden" name="a_id" value="<%= $_->{a_id} %>" />
+                        <input type="image" src="/img/hr.gif" alt="Удалить" name="Удалить" value="Удалить" onclick="return confirm('Удалить статью?');" />
+                    </form>
+                    % } else {
+                        ---
+                    % }
+                </td>
+            </tr>
+            % }
+        % } else {
+            <tr>
+                <th class="full">Новости</th>
+            </tr>
+            <tr>
+                <td class="first last" style="text-align:center">В данный момент новости отсутствуют</td>
+            </tr>
+        % }
+        </table>
+
+        % if ($pages) {
+        <div class="pager">
+            <div id="pager" style="margin:auto">
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $("#pager").paginate({
+                    first_link_name         : 'Первая',
+                    count                   : <%= $pages %>,
+                    start                   : <%= $page %>,
+                    display                 : 18,
+                    border                  : false,
+                    border                  : false,
+                    text_color              : '#888',
+                    background_color        : '#EEE',   
+                    text_hover_color        : 'black',
+                    background_hover_color  : '#CFCFCF',
+                    onChange                : function(page){
+                        location = '<%= url_for->base->path('/page/') %>' + page;
+                    }
+                });
+            });
+            </script>
+        </div>
+        % }
+    </div>    

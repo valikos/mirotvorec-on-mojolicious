@@ -1,0 +1,53 @@
+% my $var = $self->stash('var');
+% my $num = 1;
+% layout 'main';
+
+    <div class="top-bar">
+        <a href="/personal/gallery/add" class="button">добавить</a>
+        <h1>Список альбомов</h1>
+        <div class="breadcrumbs"></div>
+    </div><br />
+
+    <div class="content-separator"></div>
+
+    <div class="table">
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing" cellpadding="0" cellspacing="0">
+        % if ($self->stash('var')) {
+            <tr>
+                <th class="first" style="width:20px;text-align:center">№</th>
+                <th>Обложка</th>
+                <th>Заголовок</th>
+                <th></th>
+                <th class="last"></th>
+            </tr>
+            % foreach (@$var) {
+            <tr>
+                <td class="first style1" style="text-align:center"><%= $num++ %></td>
+                <td style="width:150px;height:150px;"><img src="/images/scaled/<%= $_->{g_cover} %>" /></td>
+                <td><%== $_->{g_title} %></td>
+                <td style="width:18px;">
+                    <a href="/personal/gallery/edit/<%= $_->{g_id} %>">
+                        <img src="/img/edit-icon.gif" width="16" height="16" alt="Изменить" title="Изменить" />
+                    </a>
+                </td>
+                <td class="last" style="width:18px;">
+                    <form method="post" action="/personal/gallery/delete_gal">
+                        <input type="hidden" name="page" value="<%= $page %>" />
+                        <input type="hidden" name="g_id" value="<%= $_->{g_id} %>" />
+                        <input title="Удалить" type="image" src="/img/hr.gif" name="Удалить" value="Удалить" onclick="return confirm('Удалить альбом?')"/>
+                    </form>
+                </td>
+            </tr>
+            % }
+        % } else {
+            <tr>
+                <th class="full">Галерея</th>
+            </tr>
+            <tr>
+                <td class="first last" style="text-align:center">Галерея пуста</td>
+            </tr>
+        % }
+        </table>
+    </div>

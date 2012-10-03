@@ -1,0 +1,8 @@
+            <ul class="nav">
+                <li><a href="/">Главная</a></li>
+                <li><a href="/gallery">Галерея</a></li>
+                <li><a href="/contacts">Контакты</a></li>
+                <li><a href="/event">Операции</a></li>
+                <li><a href="/guestbook">Гостевая</a></li>
+                <li class="last"><a href="/rules">Правила</a></li>
+            </ul>

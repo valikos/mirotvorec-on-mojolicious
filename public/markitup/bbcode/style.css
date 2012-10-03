@@ -1,0 +1,93 @@
+.bbcode .markItUpButton1 a { /* bold */
+    background-image:url(images/bold.png);
+}
+.bbcode .markItUpButton2 a { /* italic */
+    background-image:url(images/italic.png);
+}
+.bbcode .markItUpButton3 a { /* underline */
+    background-image:url(images/underline.png);
+}
+.bbcode .markItUpButton4 a { /* strike */
+    background-image:url(images/stroke.png);
+}
+.bbcode .markItUpButton5 a { /* left */
+    background-image:url(images/text_align_left.png);
+}
+.bbcode .markItUpButton6 a { /* cente */
+    background-image:url(images/text_align_center.png);
+}
+.bbcode .markItUpButton7 a { /* right */
+    background-image:url(images/text_align_right.png);
+}
+.bbcode .markItUpButton8 a{ /* size */
+    background-image:url(images/fonts.png);
+}
+.bbcode .markItUpButton9 a {  /* color */
+    background-image:url(images/palette.png);
+}
+    .bbcode .markItUpButton9 ul {
+        width:81px;
+        padding:1px;
+    }
+    .bbcode .markItUpButton9 li {
+        border:1px solid white;
+        width:25px;
+        height:25px;
+        overflow:hidden;
+        padding:0px;
+        margin:0px;
+        float:left;
+    }
+    .bbcode .markItUpButton9 ul a {
+        width:25px;
+        height:25px;
+    }
+    .bbcode .markItUpButton9 ul a:hover {
+        background-color:none;
+    }
+    
+    .bbcode .markItUpButton9 .col1-1 a {
+        background:yellow;
+    }
+    .bbcode .markItUpButton9 .col1-2 a {
+        background:orange;
+    }
+    .bbcode .markItUpButton9 .col1-3 a {
+        background:red;
+    }
+    
+    .bbcode .markItUpButton9 .col2-1 a {
+        background:blue;
+    }
+    .bbcode .markItUpButton9 .col2-2 a {
+        background:purple;
+    }
+    .bbcode .markItUpButton9 .col2-3 a {
+        background:green;
+    }
+    
+    .bbcode .markItUpButton9 .col3-1 a {
+        background:white;
+    }
+    .bbcode .markItUpButton9 .col3-2 a {
+        background:gray;
+    }
+    .bbcode .markItUpButton9 .col3-3 a {
+        background:black;
+    }
+
+.bbcode .markItUpButton10 a { /* link */
+    background-image:url(images/link.png);
+}
+.bbcode .markItUpButton11 a { /* img */
+    background-image:url(images/picture.png);
+}
+.bbcode .markItUpButton12 a { /* vid */
+    background-image:url(images/video.png);
+}
+.bbcode .markItUpButton13 a {
+    background-image:url(images/quotes.png);
+}
+.bbcode .markItUpButton14 a {
+    background-image:url(images/clean.png);
+}

@@ -1,0 +1,54 @@
+% layout 'main';
+
+    <div class="top-bar">
+        <div class="breadcrumbs">
+%     if ($err) {
+%       foreach (@$err) {
+            <h2><%= $_ %></h2>
+%       }
+%     }
+        </div>
+    </div>
+    
+    <div class="table">
+% if ($g_id) {
+    <form action="/personal/gallery/update" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="g_id" value="<%= $g_id %>" />
+% } else {
+    <form action="/personal/gallery/insert" method="post" enctype="multipart/form-data">
+% }
+
+        <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+        <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+        <table class="listing form" cellpadding="0" cellspacing="0">
+            <tr>
+                <th class="full" colspan="2">Данные альбома</th>
+            </tr>
+            <!--tr>
+                <td>Автор</td>
+                <td class="left"><%= $USER->{'u_login'} %></td>
+            </tr-->
+            <tr class="bg">
+                <td>Заголовок</td>
+                <td class="left"><input size="80" type="text" name="g_title" value="<%= $var->{'g_title'} %>" /></td>
+            </tr>
+            <tr>
+                <td>Описание</td>
+                <td class="left">
+                    <textarea rows="5" cols="80" name="g_description"><%= $var->{'g_description'} %></textarea>
+                </td>
+            </tr>
+            <tr class="bg">
+                <td>Изображение</td>
+                <td class="left">
+                    <input type="file" name="preview" value="Загрузить" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="left">
+                    <input type="submit" value="Добавить" />
+                </td>
+            </tr>
+        </table>
+</form>
+</div>

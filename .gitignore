@@ -1,0 +1,8 @@
+db/mir.db
+
+public/images/original
+public/images/scaled
+public/images/temp
+public/images/thumbs
+
+public/img/

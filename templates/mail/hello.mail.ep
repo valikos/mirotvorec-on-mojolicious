@@ -1,0 +1,3 @@
+% layout 'default', subject => 'Тема письма', title => 'Спасибо!';
+  
+  <p>Здесь HTML</p>

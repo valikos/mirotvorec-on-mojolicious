@@ -1,0 +1,117 @@
+% layout 'main', title => join ' ', '::', 'Гостевая книга';
+        <div class="top-bar">
+                <h1>Гостевая книга</h1>
+                <div class="breadcrumbs">
+                </div>
+        </div><br />
+        <!--div class="select-bar">
+                <!--label>
+                <input type="text" name="textfield" />
+                </label>
+                <label>
+                <input type="submit" name="Submit" value="Поиск" />
+                </label--> 
+        <!--/div-->
+        <div class="content-separator"></div>
+        
+% if ($self->stash('error')) {
+    % my $err = $self->stash('error');
+    % foreach (@$err) {
+        <p id="<%= $_ %>" style="color:red"><%= $CFG->{$_} %></p>
+    % }
+% }
+            <div class="table">
+                <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                <form method="post" action="/guestbook/page/<%= $page %>/add">
+                <table class="listing form" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th class="full" colspan="3">Оставить сообщение</th>
+                    </tr>
+                    <tr>
+                        <td class="first" width="172"><strong>Имя</strong></td>
+                        <td class="last" colspan="2"><input type="text" class="text" name="g_user" value="" /></td>
+                    </tr>
+                    <tr class="bg">
+                        <td class="first"><strong>Текст сообщения</strong></td>
+                        <td class="last" colspan="2"><textarea class="text" name="g_mes"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td class="first"><strong>Защитный код</strong></td>
+                        <td style="width:50px">
+                            <img title="Защитный код" src="/images/code.png" />
+                        </td>
+                        <td class="last">
+                            <input maxlength="5" type="text" style="width:70px;text-align:center" class="text" name="g_code" value="" />
+                        </td>
+                    </tr>
+                    <tr class="bg">
+                        <td class="first"></td>
+                        <td class="last" colspan="2"><input type="submit" name="Добавить" value="Добавить" /></td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+        
+        <div class="table">
+            % if ($var) {
+                % foreach (@$var) {
+                <div class="table_item">
+                    <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                    <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                    <table class="listing" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <th class="first last" width="20"><%= $_->{g_create} %></th>
+                        </tr>
+                        <tr class="bg">
+                            <td class="first last style1"><strong><i><%= $_->{g_user} %> : </i></strong><%= $_->{g_mes} %></td>
+                        </tr>
+                    % if ($_->{g_answer} && $_->{g_answer} ne q``) {
+                        <tr>
+                            % my $mode = '';
+                            % $mode = 'администратор' if $_->{u_mode} == 2;
+                            % $mode = 'участник' if $_->{u_mode} == 1;
+                            <td class="first last"><i><%= $_->{u_login} %> (<%= $mode %>) : <%= $_->{g_answer} %></i></td>
+                        </tr>
+                    % }
+                    </table>
+                    <br />
+                </div>
+                % }
+            % } else {
+            <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+            <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+            <table class="listing" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="full">Гостевая книга</th>
+                </tr>
+                <tr>
+                    <td class="first last" style="text-align:center">Гостевая книга пустая</td>
+                </tr>
+            </table>
+            % }
+                % if ($pages) {
+                <div class="pager">
+                    <div id="pager" style="margin:auto">
+                    </div>
+                    <script type="text/javascript">
+                    $(document).ready(function(){
+                        $("#pager").paginate({
+                            count                   : <%= $pages %>,
+                            start                   : <%= $page %>,
+                            display                 : 18,
+                            border                  : false,
+                            border                  : false,
+                            text_color              : '#888',
+                            background_color        : '#EEE',   
+                            text_hover_color        : 'black',
+                            background_hover_color  : '#CFCFCF',
+                            onChange                : function(page){
+                                location = '/guestbook/page/' + page;
+                            }
+                        });
+                    });
+                    </script>
+                </div>
+                % }
+            </div>

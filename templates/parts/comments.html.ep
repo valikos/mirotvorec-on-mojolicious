@@ -1,0 +1,55 @@
+    % if ($comments) {
+
+        % foreach (@$comments) {
+            <div class="table_item comm" id="comment_<%== $_->{c_id} %>" style="margin-bottom:10px">
+                <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+                <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+                <table class="listing form" cellpadding="0" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="full">
+                            <span><%= $_->{u_login} %> <%= $_->{c_id} %></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="bg">
+                        <td class="first" style="padding:0;width:100px;vertical-align: top">
+                            <img style="float:left" src="<%= $_->{u_avatar} eq '' ? '/images/noavatar.png' : $_->{u_avatar} %>" alt="" width="100" height="100" />
+                        </td>
+                        <td style="vertical-align:top" id="comId<%= $_->{c_id} %>" class="last">
+                            <%== $_->{c_comment} %>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td style="text-align:left" class="first last" colspan="2">
+                            <span style="line-height: 30px;text-transform:lowercase;float:left;">Комментарий добавлен: <%= $_->{c_create} %></span>
+                            % if ($USER) {
+                            <ul id="icons" style="float:right" class="ui-widget ui-helper-clearfix">
+                                %== '<li id="dialog_link_' . $_->{c_id} . '" title="Редактировать запись" class="dialog_link ui-state-default ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></li>' if ($_->{'c_u_id'} eq $USER->{'u_id'} || $USER->{'u_mode'} eq 2);
+                                %== '<li id="delete_'.$_->{c_id}.'" title="Удалить запись" class="ui-state-default ui-corner-all del"><span class="ui-icon ui-icon-trash"></span></li>' if ($_->{'c_u_id'} eq $USER->{'u_id'} || $USER->{'u_mode'} eq 2);
+                            </ul>
+                            % }
+                            <div class="clear"></div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        % }
+    % } else {
+        <div class="table">
+            <img src="/img/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+            <img src="/img/bg-th-right.gif" width="7" height="7" alt="" class="right" />
+            <table class="listing form" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="full">Комментарии</th>
+                </tr>
+                <tr>
+                    <td class="left right">Данный материал не содержит комментариев</td>
+                </tr>
+            </table>
+        </div>
+    % }
